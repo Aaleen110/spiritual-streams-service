@@ -1,0 +1,21 @@
+My frontend project is @/SpiritualStreams for which i want to write backend using cloudflare workers.
+
+I am using hono and drizzle, db setup is yet to be done,
+I follow a pattern in my coding which you can refer from  @/client-service (JUST FOR REFERENCE: WE DO NOT SHARE CODE WITH THIS SERVICE)
+
+The pattern in:
+in @router.ts we will keep routes
+in @streams.ts : main endpoind function
+in @bl.ts business logic will be called
+in @io.ts : DB I/O operations will be written
+@interfaces.ts will have all interfaces or types required.
+
+
+Refer @mockData.ts @sermons 
+And lets plan first how we will be writing backend for spiritual streams.
+After planning we will do implementation..
+
+Also the parts will have audios and audio in the hardcoded data is sample (for test purpose), real audio wil be different and may be very large (That is the reason i have introduced 'parts'.
+
+End user should be able to stream the audio smoothly.
+Also the @sermons object structure is not FINAL, feel free to make any improvements if required from architecture perspective.

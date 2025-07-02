@@ -1,0 +1,124 @@
+# ==========================================
+# API: Spiritual Streams MVP
+# Base URL: http://localhost:8787
+# Description: MVP API for retrieving sermons and streaming audio
+# ==========================================
+
+# ==========================================
+# API: Get All Sermons
+# Endpoint: GET /api/v1/sermons
+# Description: Retrieve all sermons with pagination and search
+# ==========================================
+
+# Positive Test Case - Get all sermons
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons"
+
+# Positive Test Case - Get sermons with pagination
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons?page=1&limit=5"
+
+# Positive Test Case - Search sermons
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons?search=Ghadeer"
+
+# ==========================================
+# API: Get Sermon by ID
+# Endpoint: GET /api/v1/sermons/:id
+# Description: Retrieve a specific sermon with its parts
+# ==========================================
+
+# Positive Test Case - Get sermon by ID
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons/1"
+
+# Negative Test Case - Invalid sermon ID
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons/invalid-id"
+
+# ==========================================
+# API: Get Sermon Parts
+# Endpoint: GET /api/v1/sermons/:sermonId/parts
+# Description: Retrieve all parts of a specific sermon
+# ==========================================
+
+# Positive Test Case - Get sermon parts
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons/1/parts"
+
+# Negative Test Case - Invalid sermon ID
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons/invalid-id/parts"
+
+# ==========================================
+# API: Get Sermon Part by ID
+# Endpoint: GET /api/v1/parts/:id
+# Description: Retrieve a specific sermon part
+# ==========================================
+
+# Positive Test Case - Get sermon part by ID
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/parts/1_1"
+
+# Negative Test Case - Invalid part ID
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/parts/invalid-id"
+
+# ==========================================
+# API: Stream Audio Info
+# Endpoint: GET /api/v1/parts/:id/stream
+# Description: Get audio streaming information for a sermon part
+# ==========================================
+
+# Positive Test Case - Stream audio info
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/parts/1_1/stream"
+
+# Negative Test Case - Invalid part ID
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/parts/invalid-id/stream"
+
+# ==========================================
+# API: Stream Audio File
+# Endpoint: GET /api/v1/audio/:id
+# Description: Stream audio file directly from R2 with range support
+# ==========================================
+
+# Positive Test Case - Stream audio file
+curl -X GET \
+  -H "Range: bytes=0-" \
+  "http://localhost:8787/api/v1/audio/1_1"
+
+# Positive Test Case - Stream audio file with range
+curl -X GET \
+  -H "Range: bytes=0-1023" \
+  "http://localhost:8787/api/v1/audio/1_1"
+
+# Negative Test Case - Invalid part ID
+curl -X GET \
+  -H "Range: bytes=0-" \
+  "http://localhost:8787/api/v1/audio/invalid-id"
+
+# ==========================================
+# API: Health Check
+# Endpoint: GET /
+# Description: Health check endpoint
+# ==========================================
+
+# Positive Test Case - Health check
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/"
+
+# ========================================== 

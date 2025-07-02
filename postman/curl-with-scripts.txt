@@ -1,0 +1,173 @@
+# ==========================================
+# API: Spiritual Streams MVP
+# Base URL: http://localhost:8787
+# Description: MVP API for retrieving sermons and streaming audio
+# ==========================================
+
+# ==========================================
+# API: Get All Sermons
+# Endpoint: GET /api/v1/sermons
+# Description: Retrieve all sermons with pagination and search
+# ==========================================
+
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons"
+
+# Postman Test Scripts
+```javascript
+// Positive Test Cases
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response status is success", function () {
+    const response = pm.response.json();
+    pm.expect(response.status).to.eql("success");
+});
+
+pm.test("Message is correct", function () {
+    const response = pm.response.json();
+    pm.expect(response.message).to.include("retrieved successfully");
+});
+
+pm.test("Response has required fields", function () {
+    const response = pm.response.json();
+    const data = response.data;
+    
+    pm.expect(data).to.have.property("sermons");
+    pm.expect(data).to.have.property("total");
+    pm.expect(data).to.have.property("page");
+    pm.expect(data).to.have.property("totalPages");
+    
+    if (data.sermons.length > 0) {
+        const sermon = data.sermons[0];
+        pm.expect(sermon).to.have.property("id");
+        pm.expect(sermon).to.have.property("title");
+        pm.expect(sermon).to.have.property("preacher");
+        pm.expect(sermon).to.have.property("imageUrl");
+        pm.expect(sermon).to.have.property("date");
+    }
+});
+
+pm.test("Response time is less than 2000ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(2000);
+});
+
+pm.test("Content-Type is application/json", function () {
+    pm.response.to.have.header("Content-Type");
+    pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+});
+```
+
+# ==========================================
+# API: Get Sermon by ID
+# Endpoint: GET /api/v1/sermons/:id
+# Description: Retrieve a specific sermon with its parts
+# ==========================================
+
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/sermons/1"
+
+# Postman Test Scripts
+```javascript
+// Positive Test Cases
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response status is success", function () {
+    const response = pm.response.json();
+    pm.expect(response.status).to.eql("success");
+});
+
+pm.test("Message is correct", function () {
+    const response = pm.response.json();
+    pm.expect(response.message).to.include("retrieved successfully");
+});
+
+pm.test("Response has required fields", function () {
+    const response = pm.response.json();
+    const data = response.data;
+    
+    pm.expect(data).to.have.property("sermon");
+    pm.expect(data.sermon).to.have.property("id");
+    pm.expect(data.sermon).to.have.property("title");
+    pm.expect(data.sermon).to.have.property("preacher");
+    pm.expect(data.sermon).to.have.property("imageUrl");
+    pm.expect(data.sermon).to.have.property("date");
+    pm.expect(data.sermon).to.have.property("parts");
+});
+
+pm.test("Response time is less than 2000ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(2000);
+});
+
+pm.test("Content-Type is application/json", function () {
+    pm.response.to.have.header("Content-Type");
+    pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+});
+```
+
+# ==========================================
+# API: Stream Audio
+# Endpoint: GET /api/v1/parts/:id/stream
+# Description: Get audio streaming information for a sermon part
+# ==========================================
+
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "http://localhost:8787/api/v1/parts/1_1/stream"
+
+# Postman Test Scripts
+```javascript
+// Positive Test Cases
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response status is success", function () {
+    const response = pm.response.json();
+    pm.expect(response.status).to.eql("success");
+});
+
+pm.test("Message is correct", function () {
+    const response = pm.response.json();
+    pm.expect(response.message).to.include("retrieved successfully");
+});
+
+pm.test("Response has required fields", function () {
+    const response = pm.response.json();
+    const data = response.data;
+    
+    pm.expect(data).to.have.property("audioUrl");
+    pm.expect(data).to.have.property("mimeType");
+    pm.expect(data).to.have.property("duration");
+});
+
+pm.test("Audio URL is valid", function () {
+    const response = pm.response.json();
+    const data = response.data;
+    
+    pm.expect(data.audioUrl).to.match(/^\/sermons\/\d+\.mp3$/);
+});
+
+pm.test("Duration is positive", function () {
+    const response = pm.response.json();
+    const data = response.data;
+    
+    pm.expect(data.duration).to.be.above(0);
+});
+
+pm.test("Response time is less than 2000ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(2000);
+});
+
+pm.test("Content-Type is application/json", function () {
+    pm.response.to.have.header("Content-Type");
+    pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+});
+```
+
+# ========================================== 
