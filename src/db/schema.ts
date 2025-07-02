@@ -16,7 +16,7 @@ export const sermonParts = sqliteTable('sermon_parts', {
   title: text('title').notNull(),
   audioUrl: text('audio_url').notNull(),
   duration: integer('duration').notNull(),
-  transcript: text('transcript'),
+  transcriptUrl: text('transcript_url'),
   partNumber: integer('part_number').notNull(),
   createdAt: text('created_at').default('CURRENT_TIMESTAMP'),
   updatedAt: text('updated_at').default('CURRENT_TIMESTAMP'),

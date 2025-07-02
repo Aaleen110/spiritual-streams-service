@@ -24,7 +24,11 @@ app.use('*', cors({
     if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
       return origin;
     }
-    // Add your production domain here when deploying
+    // Allow Cloudflare Pages production domain
+    if (origin === 'https://spiritualstreams.pages.dev') {
+      return origin;
+    }
+    // Otherwise, block
     return null;
   },
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
